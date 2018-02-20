@@ -1,0 +1,25 @@
+{
+    "plugins": [
+      "import",
+      "jsx-a11y",
+      "react" 
+    ],
+    "globals": {
+      "fetch": true
+    },
+    "rules": {
+      "react/jsx-filename-extension": 0,
+      "react/no-typos": 0
+    },
+    "extends": [
+      "eslint:recommended",
+      "airbnb",
+      "plugin:react/recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings"
+    ],
+    "env": {
+      "jest": true,
+      "browser": true
+    }
+}
