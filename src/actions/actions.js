@@ -4,6 +4,8 @@ export const ACTION_TIMER_ADD = 'ACTION_TIMER_ADD';
 export const ACTION_TIMER_PAUSE = 'ACTION_TIMER_PAUSE';
 export const ACTION_TIMER_REMOVE = 'ACTION_TIMER_REMOVE';
 
+export const ACTION_TIMER_ANIMATE = 'ACTION_TIMER_ANIMATE';
+
 let nextTimerId = 0;
 export const addTimer = (text, duration) => {
   nextTimerId += 1;
@@ -13,8 +15,9 @@ export const addTimer = (text, duration) => {
     newTimer: {
       id: nextTimerId,
       name: text,
-      duration,
+      duration: Moment.duration(duration),
       startTime: currentDate,
+      remainingTime: Moment.duration(duration),
       paused: false,
     },
   };
@@ -28,4 +31,9 @@ export const pauseTimer = id => ({
 export const deleteTimer = timer => ({
   type: ACTION_TIMER_REMOVE,
   timer,
+});
+
+export const animate = frame => ({
+  type: ACTION_TIMER_ANIMATE,
+  animationFrame: frame,
 });

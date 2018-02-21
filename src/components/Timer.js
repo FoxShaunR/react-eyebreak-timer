@@ -6,43 +6,37 @@ import Moment from 'moment';
 import MomentFormat from 'moment-duration-format';
 
 
-class Timer extends React.Component {
-  getRemainingTime() {
-    const currentTime = Moment();
-    const remainingSeconds = currentTime.clone().diff(this.props.startTime, 'seconds');
+const formatRemainingTime = duration => (
+  Moment.duration(duration).format('hh:mm:ss')
+);
 
-    return Moment.duration(remainingSeconds - this.props.duration, 'seconds').format('hh:mm:ss');
-  }
-
-  render() {
-    const {
-      name,
-      paused,
-      onPauseClick,
-      onDeleteClick,
-    } = this.props;
-
-    return (
-      <li>
-        {`${name} - ${this.getRemainingTime()}` }
-        <button
-          onClick={onPauseClick}
-          style={paused ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
-        >
-        [||]
-        </button>
-        <button onClick={onDeleteClick}>
-          [-]
-        </button>
-      </li>
-    );
-  }
-}
+const Timer = ({
+  name,
+  paused,
+  remainingTime,
+  onPauseClick,
+  onDeleteClick,
+}) =>
+  (
+    <li>
+      {`${name}  ${formatRemainingTime(remainingTime)}` }
+      <button
+        onClick={onPauseClick}
+        style={paused ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
+      >
+      [||]
+      </button>
+      <button onClick={onDeleteClick}>
+        [-]
+      </button>
+    </li>
+  );
 
 Timer.propTypes = {
   name: PropTypes.string,
-  duration: PropTypes.number.isRequired,
-  startTime: PropTypes.instanceOf(Moment).isRequired,
+  // duration: PropTypes.instanceOf(Moment.Duration).isRequired,
+  // startTime: PropTypes.instanceOf(Moment).isRequired,
+  // remainingTime: PropTypes.instanceOf(Moment.Duration),
   paused: PropTypes.bool,
   onPauseClick: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
