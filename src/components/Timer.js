@@ -7,7 +7,9 @@ import MomentFormat from 'moment-duration-format';
 
 
 const formatRemainingTime = duration => (
-  Moment.duration(duration).format('hh:mm:ss')
+  Moment.duration(duration).format('HH:mm:ss', {
+    trim: false,
+  })
 );
 
 const Timer = ({
@@ -18,17 +20,24 @@ const Timer = ({
   onDeleteClick,
 }) =>
   (
-    <li>
-      {`${name}  ${formatRemainingTime(remainingTime)}` }
-      <button
-        onClick={onPauseClick}
-        style={paused ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
-      >
-      [||]
-      </button>
-      <button onClick={onDeleteClick}>
-        [-]
-      </button>
+    <li className="Timer">
+      <h3 className="TimerName">{name}</h3>
+      <h3 className="TimerRemaining">{formatRemainingTime(remainingTime)}</h3>
+      <div className="TimerButtons">
+        <button
+          onClick={onPauseClick}
+          className="TimerButton"
+          style={paused ? { fontWeight: 'bold' } : { fontWeight: 'normal' }}
+        >
+        ||
+        </button>
+        <button
+          onClick={onDeleteClick}
+          className="TimerButton"
+        >
+          -
+        </button>
+      </div>
     </li>
   );
 

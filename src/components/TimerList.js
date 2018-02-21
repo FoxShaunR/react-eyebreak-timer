@@ -20,7 +20,6 @@ class TimerList extends React.Component {
     this.forceUpdate.bind(this);
   }
 
-  // ({ Timers, onDeleteClick, onPauseClick }) => (
   render() {
     const {
       Timers,

@@ -8,7 +8,7 @@ class AddTimer extends React.Component {
     let nameInput;
     let durationInput;
     return (
-      <div>
+      <div className="AddTimer">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -27,12 +27,18 @@ class AddTimer extends React.Component {
             ref={(node) => {
                 nameInput = node;
             }}
+            className="AddTimerInput"
+            placeholder="Name"
+            maxLength={10}
           />
           <input
             ref={(node) => {
                 durationInput = node;
             }}
             type="number"
+            className="AddTimerInput"
+            placeholder="Minutes"
+            max={9999}
           />
           <button type="submit">
             Add Timer

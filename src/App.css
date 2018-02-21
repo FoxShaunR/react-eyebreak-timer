@@ -1,28 +1,62 @@
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.AddTimer {
+  padding: 10px;
+  align-self: center;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.AddTimerInput {
+  margin-right: 10px;
 }
 
-.App-title {
-  font-size: 1.5em;
+.Timer {
+  height: 60px;
+  width: 500px;
+  border-style: solid;
+  border-width: .5px;
+  border-color: lightgray;
+  border-radius: 10px;
+  align-self: center;
+  display: grid;
+  grid-template-columns: 240px 100px 160px;
+  font-size: 20px;
+  color: darkslategrey;
+  font-style: normal;
+  align-content: center;
+  margin-bottom: 4px;
 }
 
-.App-intro {
-  font-size: large;
+.TimerName {
+  padding-left: 10px;
+  grid-column: 1;
+  overflow: hidden;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.TimerRemaining {
+  width: 100px;
+  grid-column: 2;
+}
+
+.TimerButtons {
+  grid-column: 3;
+  display: flex;
+  align-content: center;
+  align-self: center;
+}
+
+.TimerButton {
+  height: 24px;
+  width: 40px;
+  background-color: whitesmoke;
+  margin-left: 24px;
+  border-radius: 8px;
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
 }

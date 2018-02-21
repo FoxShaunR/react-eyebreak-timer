@@ -13,7 +13,7 @@ const getRemainingTime = (startTime, duration) => {
   const currentTime = Moment();
   const remainingSeconds = currentTime.clone().diff(startTime, 'seconds');
 
-  return Moment.duration(remainingSeconds - duration, 'seconds');
+  return Moment.duration(duration - remainingSeconds, 'seconds');
 };
 
 const timers = (state = [], action) => {
@@ -30,7 +30,7 @@ const timers = (state = [], action) => {
           ((timer.id === action.id) ? {
             ...timer,
             paused: !timer.paused,
-            duration: (-1 * timer.remainingTime) / 1000,
+            duration: (timer.remainingTime) / 1000,
             startTime: Moment(),
           } : timer)),
       };
