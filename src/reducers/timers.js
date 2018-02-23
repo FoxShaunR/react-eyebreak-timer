@@ -1,7 +1,4 @@
 import Moment from 'moment';
-// eslint-disable-next-line no-unused-vars
-import MomentFormat from 'moment-duration-format';
-
 import {
   ACTION_TIMER_ADD,
   ACTION_TIMER_PAUSE,
@@ -15,8 +12,8 @@ const getRemainingTime = (startTime, currentDuration) => {
   const currentTime = Moment();
   const remainingSeconds = currentTime.clone().diff(startTime, 'seconds');
 
-  return Moment.duration(currentDuration - remainingSeconds, 'seconds') >= 0 ?
-    Moment.duration(currentDuration - remainingSeconds, 'seconds') : 0;
+  return Moment.duration(currentDuration - remainingSeconds, 'seconds').asSeconds() >= 0 ?
+    Moment.duration(currentDuration - remainingSeconds, 'seconds').asSeconds() : 0;
 };
 
 const timers = (state = [], action) => {
@@ -33,8 +30,8 @@ const timers = (state = [], action) => {
           ((timer.id === action.id) ? {
             ...timer,
             paused: !timer.paused,
-            currentDuration: (timer.remainingTime) / 1000,
-            startTime: Moment(),
+            currentDuration: timer.remainingTime,
+            startTime: new Date(),
           } : timer)),
       };
     case ACTION_TIMER_RESET:
@@ -45,8 +42,8 @@ const timers = (state = [], action) => {
             ...timer,
             paused: false,
             currentDuration: timer.originalDuration,
-            remainingTime: getRemainingTime(Moment(), timer.originalDuration),
-            startTime: Moment(),
+            remainingTime: getRemainingTime(new Date(), timer.originalDuration),
+            startTime: new Date(),
           } : timer)),
       };
     case ACTION_TIMER_REPEAT:

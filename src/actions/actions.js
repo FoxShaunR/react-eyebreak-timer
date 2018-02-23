@@ -1,5 +1,3 @@
-import Moment from 'moment';
-
 export const ACTION_TIMER_ADD = 'ACTION_TIMER_ADD';
 export const ACTION_TIMER_PAUSE = 'ACTION_TIMER_PAUSE';
 export const ACTION_TIMER_REPEAT = 'ACTION_TIMER_REPEAT';
@@ -10,16 +8,16 @@ export const ACTION_TIMER_ANIMATE = 'ACTION_TIMER_ANIMATE';
 let nextTimerId = 0;
 export const addTimer = (text, currentDuration) => {
   nextTimerId += 1;
-  const currentDate = Moment();
+  const currentDate = new Date();
   return {
     type: ACTION_TIMER_ADD,
     newTimer: {
       id: nextTimerId,
       name: text,
-      originalDuration: Moment.duration(currentDuration),
-      currentDuration: Moment.duration(currentDuration),
+      originalDuration: currentDuration,
+      currentDuration,
       startTime: currentDate,
-      remainingTime: Moment.duration(currentDuration),
+      remainingTime: currentDuration,
       paused: false,
       repeat: false,
     },

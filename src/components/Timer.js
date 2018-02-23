@@ -14,7 +14,7 @@ import { resetTimer } from '../actions/actions';
 
 
 const formatRemainingTime = currentDuration => (
-  Moment.duration(currentDuration).format('HH:mm:ss', {
+  Moment.duration(currentDuration, 'seconds').format('HH:mm:ss', {
     trim: false,
   })
 );
@@ -78,10 +78,10 @@ class Timer extends React.Component {
 Timer.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string,
-  // originalDuration: PropTypes.instanceOf(Moment.Duration).isRequired,
-  // currentDuration: PropTypes.instanceOf(Moment.Duration).isRequired,
-  // startTime: PropTypes.instanceOf(Moment).isRequired,
-  // remainingTime: PropTypes.instanceOf(Moment.Duration).isRequired,,
+  // originalDuration: PropTypes.number.isRequired,
+  // currentDuration: PropTypes.number.isRequired,
+  // startTime: PropTypes.instanceOf(date).isRequired,
+  remainingTime: PropTypes.number.isRequired,
   paused: PropTypes.bool,
   repeat: PropTypes.bool,
   onPauseClick: PropTypes.func.isRequired,
