@@ -8,7 +8,7 @@ export const ACTION_TIMER_RESET = 'ACTION_TIMER_RESET';
 export const ACTION_TIMER_ANIMATE = 'ACTION_TIMER_ANIMATE';
 
 let nextTimerId = 0;
-export const addTimer = (text, duration) => {
+export const addTimer = (text, currentDuration) => {
   nextTimerId += 1;
   const currentDate = Moment();
   return {
@@ -16,9 +16,10 @@ export const addTimer = (text, duration) => {
     newTimer: {
       id: nextTimerId,
       name: text,
-      duration: Moment.duration(duration),
+      originalDuration: Moment.duration(currentDuration),
+      currentDuration: Moment.duration(currentDuration),
       startTime: currentDate,
-      remainingTime: Moment.duration(duration),
+      remainingTime: Moment.duration(currentDuration),
       paused: false,
       repeat: false,
     },
@@ -27,6 +28,11 @@ export const addTimer = (text, duration) => {
 
 export const pauseTimer = id => ({
   type: ACTION_TIMER_PAUSE,
+  id,
+});
+
+export const resetTimer = id => ({
+  type: ACTION_TIMER_RESET,
   id,
 });
 

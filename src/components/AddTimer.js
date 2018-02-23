@@ -39,6 +39,7 @@ class AddTimer extends React.Component {
             className="AddTimerInput"
             placeholder="Minutes"
             max={9999}
+            min={1}
           />
           <button type="submit">
             Add Timer
@@ -54,7 +55,7 @@ AddTimer.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addTimerToState: (text, duration) => dispatch(addTimer(text, duration)),
+  addTimerToState: (text, currentDuration) => dispatch(addTimer(text, currentDuration)),
 });
 
 export default connect(

@@ -11,12 +11,12 @@ import {
   ACTION_TIMER_RESET,
 } from '../actions/actions';
 
-const getRemainingTime = (startTime, duration) => {
+const getRemainingTime = (startTime, currentDuration) => {
   const currentTime = Moment();
   const remainingSeconds = currentTime.clone().diff(startTime, 'seconds');
 
-  return Moment.duration(duration - remainingSeconds, 'seconds') >= 0 ?
-    Moment.duration(duration - remainingSeconds, 'seconds') : 0;
+  return Moment.duration(currentDuration - remainingSeconds, 'seconds') >= 0 ?
+    Moment.duration(currentDuration - remainingSeconds, 'seconds') : 0;
 };
 
 const timers = (state = [], action) => {
@@ -33,11 +33,10 @@ const timers = (state = [], action) => {
           ((timer.id === action.id) ? {
             ...timer,
             paused: !timer.paused,
-            duration: (timer.remainingTime) / 1000,
+            currentDuration: (timer.remainingTime) / 1000,
             startTime: Moment(),
           } : timer)),
       };
-    // TODO: Reset logic
     case ACTION_TIMER_RESET:
       return {
         ...state,
@@ -45,7 +44,8 @@ const timers = (state = [], action) => {
           ((timer.id === action.id) ? {
             ...timer,
             paused: false,
-            duration: (timer.remainingTime) / 1000,
+            currentDuration: timer.originalDuration,
+            remainingTime: getRemainingTime(Moment(), timer.originalDuration),
             startTime: Moment(),
           } : timer)),
       };
@@ -79,7 +79,7 @@ const timers = (state = [], action) => {
           ({
             ...timer,
             remainingTime: timer.paused ?
-              timer.remainingTime : getRemainingTime(timer.startTime, timer.duration),
+              timer.remainingTime : getRemainingTime(timer.startTime, timer.currentDuration),
           })),
       };
     }

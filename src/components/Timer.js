@@ -10,21 +10,24 @@ import deleteButtonImage from './delete-button.png';
 import repeatButtonImage from './repeat-button.png';
 import repeatButtonOffImage from './repeat-off-button.png';
 import bellSound from './bell.wav';
+import { resetTimer } from '../actions/actions';
 
 
-const formatRemainingTime = duration => (
-  Moment.duration(duration).format('HH:mm:ss', {
+const formatRemainingTime = currentDuration => (
+  Moment.duration(currentDuration).format('HH:mm:ss', {
     trim: false,
   })
 );
 
 class Timer extends React.Component {
-  onTimerFinish() {
-    if (this.props.repeat) {
-      // TODO: Implement timer reset
+  componentDidUpdate() {
+    if (this.props.remainingTime <= 0 && !this.props.paused) {
+      document.getElementById('bell').play();
+      if (this.props.repeat) {
+        this.props.resetTimer(this.props.id);
+      }
     }
   }
-
   render() {
     const {
       name,
@@ -35,10 +38,6 @@ class Timer extends React.Component {
       onDeleteClick,
       onRepeatClick,
     } = this.props;
-
-    if (remainingTime <= 0) {
-      this.onTimerFinish();
-    }
 
     return (
       <li className="Timer">
@@ -66,11 +65,8 @@ class Timer extends React.Component {
             src={deleteButtonImage}
             alt="Remove"
           />
-          <audio id="bell" autoPlay>
-            {remainingTime <= 0 ?
-              <source src={bellSound} type="audio/wav" />
-              : null
-            }
+          <audio id="bell">
+            <source src={bellSound} type="audio/wav" />
             <track kind="captions" src="./bell.srt" />
           </audio>
         </div>
@@ -80,15 +76,18 @@ class Timer extends React.Component {
 }
 
 Timer.propTypes = {
+  id: PropTypes.number.isRequired,
   name: PropTypes.string,
-  // duration: PropTypes.instanceOf(Moment.Duration).isRequired,
+  // originalDuration: PropTypes.instanceOf(Moment.Duration).isRequired,
+  // currentDuration: PropTypes.instanceOf(Moment.Duration).isRequired,
   // startTime: PropTypes.instanceOf(Moment).isRequired,
-  // remainingTime: PropTypes.instanceOf(Moment.Duration),
+  // remainingTime: PropTypes.instanceOf(Moment.Duration).isRequired,,
   paused: PropTypes.bool,
   repeat: PropTypes.bool,
   onPauseClick: PropTypes.func.isRequired,
   onRepeatClick: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
+  resetTimer: PropTypes.func.isRequired,
 };
 
 Timer.defaultProps = {
@@ -97,4 +96,8 @@ Timer.defaultProps = {
   repeat: false,
 };
 
-export default connect(null, null)(Timer);
+const mapDispatchToProps = dispatch => ({
+  resetTimer: (id) => { dispatch(resetTimer(id)); },
+});
+
+export default connect(null, mapDispatchToProps)(Timer);
