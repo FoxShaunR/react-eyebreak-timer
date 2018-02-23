@@ -7,13 +7,16 @@ import {
   ACTION_TIMER_PAUSE,
   ACTION_TIMER_REMOVE,
   ACTION_TIMER_ANIMATE,
+  ACTION_TIMER_REPEAT,
+  ACTION_TIMER_RESET,
 } from '../actions/actions';
 
 const getRemainingTime = (startTime, duration) => {
   const currentTime = Moment();
   const remainingSeconds = currentTime.clone().diff(startTime, 'seconds');
 
-  return Moment.duration(duration - remainingSeconds, 'seconds');
+  return Moment.duration(duration - remainingSeconds, 'seconds') >= 0 ?
+    Moment.duration(duration - remainingSeconds, 'seconds') : 0;
 };
 
 const timers = (state = [], action) => {
@@ -32,6 +35,27 @@ const timers = (state = [], action) => {
             paused: !timer.paused,
             duration: (timer.remainingTime) / 1000,
             startTime: Moment(),
+          } : timer)),
+      };
+    // TODO: Reset logic
+    case ACTION_TIMER_RESET:
+      return {
+        ...state,
+        Timers: state.Timers.map(timer =>
+          ((timer.id === action.id) ? {
+            ...timer,
+            paused: false,
+            duration: (timer.remainingTime) / 1000,
+            startTime: Moment(),
+          } : timer)),
+      };
+    case ACTION_TIMER_REPEAT:
+      return {
+        ...state,
+        Timers: state.Timers.map(timer =>
+          ((timer.id === action.id) ? {
+            ...timer,
+            repeat: !timer.repeat,
           } : timer)),
       };
     case ACTION_TIMER_REMOVE: {

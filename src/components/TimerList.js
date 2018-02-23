@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { addTimer, pauseTimer, deleteTimer, animate } from '../actions/actions';
+import { addTimer, pauseTimer, deleteTimer, repeatTimer, animate } from '../actions/actions';
 import Timer from './Timer';
 
 let animation = null;
@@ -24,6 +24,7 @@ class TimerList extends React.Component {
     const {
       Timers,
       onPauseClick,
+      onRepeatClick,
       onDeleteClick,
     } = this.props;
 
@@ -35,6 +36,7 @@ class TimerList extends React.Component {
           {...timer}
           onPauseClick={() => onPauseClick(timer.id)}
           onDeleteClick={() => onDeleteClick(timer)}
+          onRepeatClick={() => onRepeatClick(timer.id)}
         />
       )) }
     </ul>);
@@ -45,6 +47,7 @@ TimerList.propTypes = {
   Timers: PropTypes.arrayOf(PropTypes.shape),
   onDeleteClick: PropTypes.func.isRequired,
   onPauseClick: PropTypes.func.isRequired,
+  onRepeatClick: PropTypes.func.isRequired,
   animateTimers: PropTypes.func.isRequired,
 };
 
@@ -62,6 +65,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   onPauseClick: (id) => { dispatch(pauseTimer(id)); },
   onDeleteClick: (timer) => { dispatch(deleteTimer(timer)); },
+  onRepeatClick: (timer) => { dispatch(repeatTimer(timer)); },
   addTimer: (timer) => { dispatch(addTimer(timer)); },
   animateTimers: (frame) => { dispatch(animate(frame)); },
 });

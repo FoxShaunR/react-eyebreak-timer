@@ -1,6 +1,7 @@
 .App {
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 
 .AddTimer {
@@ -21,7 +22,7 @@
   border-radius: 10px;
   align-self: center;
   display: grid;
-  grid-template-columns: 240px 100px 160px;
+  grid-template-columns: 240px 120px 140px;
   font-size: 20px;
   color: darkslategrey;
   font-style: normal;
@@ -48,11 +49,11 @@
 }
 
 .TimerButton {
-  height: 24px;
-  width: 40px;
-  background-color: whitesmoke;
-  margin-left: 24px;
-  border-radius: 8px;
+  height: 30px;
+  width: 30px;
+  margin-left: 10px;
+  border-radius: 100%;
+  background-color: white;
 }
 
 ul {
