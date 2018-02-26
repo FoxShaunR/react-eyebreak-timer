@@ -9,7 +9,6 @@ import pauseButtonImage from './pause-button.png';
 import deleteButtonImage from './delete-button.png';
 import repeatButtonImage from './repeat-button.png';
 import repeatButtonOffImage from './repeat-off-button.png';
-import bellSound from './bell.wav';
 import { resetTimer } from '../actions/actions';
 
 
@@ -65,10 +64,6 @@ class Timer extends React.Component {
             src={deleteButtonImage}
             alt="Remove"
           />
-          <audio id="bell">
-            <source src={bellSound} type="audio/wav" />
-            <track kind="captions" src="./bell.srt" />
-          </audio>
         </div>
       </li>
     );

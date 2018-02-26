@@ -3,6 +3,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { addTimer, pauseTimer, deleteTimer, repeatTimer, animate } from '../actions/actions';
 import Timer from './Timer';
+import bellSound from './bell.wav';
+import bellCaptions from './bell.srt';
 
 let animation = null;
 
@@ -29,17 +31,23 @@ class TimerList extends React.Component {
     } = this.props;
 
     return (!Timers ? <ul /> :
-    <ul>
-      { Timers.map(timer => (
-        <Timer
-          key={timer.id}
-          {...timer}
-          onPauseClick={() => onPauseClick(timer.id)}
-          onDeleteClick={() => onDeleteClick(timer)}
-          onRepeatClick={() => onRepeatClick(timer.id)}
-        />
-      )) }
-    </ul>);
+    <div>
+      <ul>
+        { Timers.map(timer => (
+          <Timer
+            key={timer.id}
+            {...timer}
+            onPauseClick={() => onPauseClick(timer.id)}
+            onDeleteClick={() => onDeleteClick(timer)}
+            onRepeatClick={() => onRepeatClick(timer.id)}
+          />
+        )) }
+      </ul>
+      <audio id="bell">
+        <source src={bellSound} type="audio/wav" />
+        <track src={bellCaptions} kind="captions" />
+      </audio>
+    </div>);
   }
 }
 
