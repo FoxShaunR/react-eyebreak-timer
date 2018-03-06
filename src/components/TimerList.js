@@ -10,6 +10,10 @@ let animation = null;
 
 class TimerList extends React.Component {
   componentDidMount() {
+    // Request notification permission
+    if (('Notification' in window) && Notification.permission !== 'denied') {
+      Notification.requestPermission();
+    }
     animation = requestAnimationFrame(this.animateList.bind(this));
   }
 

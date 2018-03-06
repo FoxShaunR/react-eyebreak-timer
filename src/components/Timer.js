@@ -9,7 +9,8 @@ import pauseButtonImage from './pause-button.png';
 import deleteButtonImage from './delete-button.png';
 import repeatButtonImage from './repeat-button.png';
 import repeatButtonOffImage from './repeat-off-button.png';
-import { resetTimer } from '../actions/actions';
+import { resetTimer, setNotified } from '../actions/actions';
+import notificationIcon from './notification-icon.png';
 
 
 const formatRemainingTime = currentDuration => (
@@ -22,6 +23,15 @@ class Timer extends React.Component {
   componentDidUpdate() {
     if (this.props.remainingTime <= 0 && !this.props.paused) {
       document.getElementById('bell').play();
+      if (!this.props.wasNotified) {
+        // Display a desktop notification
+        if (Notification) {
+          // eslint-disable-next-line no-unused-vars
+          const thisNotification = new Notification(this.props.name, { icon: notificationIcon, body: 'Time expired.' });
+        }
+        // Update notification sent
+        this.props.setNotified(this.props.id, true);
+      }
       if (this.props.repeat) {
         this.props.resetTimer(this.props.id);
       }
@@ -82,17 +92,21 @@ Timer.propTypes = {
   onPauseClick: PropTypes.func.isRequired,
   onRepeatClick: PropTypes.func.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
+  setNotified: PropTypes.func.isRequired,
   resetTimer: PropTypes.func.isRequired,
+  wasNotified: PropTypes.bool,
 };
 
 Timer.defaultProps = {
   name: '',
   paused: false,
   repeat: false,
+  wasNotified: false,
 };
 
 const mapDispatchToProps = dispatch => ({
   resetTimer: (id) => { dispatch(resetTimer(id)); },
+  setNotified: (id, wasNotified) => { dispatch(setNotified(id, wasNotified)); },
 });
 
 export default connect(null, mapDispatchToProps)(Timer);

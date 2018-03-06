@@ -2,6 +2,7 @@ export const ACTION_TIMER_ADD = 'ACTION_TIMER_ADD';
 export const ACTION_TIMER_PAUSE = 'ACTION_TIMER_PAUSE';
 export const ACTION_TIMER_REPEAT = 'ACTION_TIMER_REPEAT';
 export const ACTION_TIMER_REMOVE = 'ACTION_TIMER_REMOVE';
+export const ACTION_TIMER_SET_NOTIFIED = 'ACTION_TIMER_SET_NOTIFIED';
 export const ACTION_TIMER_RESET = 'ACTION_TIMER_RESET';
 export const ACTION_TIMER_ANIMATE = 'ACTION_TIMER_ANIMATE';
 
@@ -42,6 +43,12 @@ export const repeatTimer = id => ({
 export const deleteTimer = timer => ({
   type: ACTION_TIMER_REMOVE,
   timer,
+});
+
+export const setNotified = (id, wasNotified) => ({
+  type: ACTION_TIMER_SET_NOTIFIED,
+  id,
+  wasNotified,
 });
 
 export const animate = frame => ({

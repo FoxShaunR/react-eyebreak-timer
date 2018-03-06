@@ -6,6 +6,7 @@ import {
   ACTION_TIMER_ANIMATE,
   ACTION_TIMER_REPEAT,
   ACTION_TIMER_RESET,
+  ACTION_TIMER_SET_NOTIFIED,
 } from '../actions/actions';
 
 const getRemainingTime = (startTime, currentDuration) => {
@@ -44,6 +45,7 @@ const timers = (state = [], action) => {
             currentDuration: timer.originalDuration,
             remainingTime: getRemainingTime(new Date(), timer.originalDuration),
             startTime: new Date(),
+            wasNotified: false,
           } : timer)),
       };
     case ACTION_TIMER_REPEAT:
@@ -67,6 +69,16 @@ const timers = (state = [], action) => {
         };
       }
       return state;
+    }
+    case ACTION_TIMER_SET_NOTIFIED: {
+      return {
+        ...state,
+        Timers: state.Timers.map(timer =>
+          ((timer.id === action.id) ? {
+            ...timer,
+            wasNotified: action.wasNotified,
+          } : timer)),
+      };
     }
     case ACTION_TIMER_ANIMATE: {
       return {
