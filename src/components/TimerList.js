@@ -6,24 +6,26 @@ import Timer from './Timer';
 import bellSound from './bell.wav';
 import bellCaptions from './bell.srt';
 
-let animation = null;
+let thisWorker = null;
 
 class TimerList extends React.Component {
   componentDidMount() {
-    // Request notification permission
     if (('Notification' in window) && Notification.permission !== 'denied') {
       Notification.requestPermission();
     }
-    animation = requestAnimationFrame(this.animateList.bind(this));
+    if (typeof (Worker) !== 'undefined') {
+      thisWorker = new Worker('../timerWorker.js');
+      thisWorker.onmessage = event => this.props.animateTimers(event.data);
+    } else {
+      const workerWarningText = document.createTextNode(`
+      This application requires web worker support.
+      We recommend updating to the latest version of Chrome.`);
+      document.getElementsByClassName('AddTimer')[0].append(workerWarningText);
+    }
   }
 
   componentWillUnmount() {
-    if (animation) cancelAnimationFrame(animation);
-  }
-
-  animateList() {
-    this.props.animateTimers(animation = requestAnimationFrame(this.animateList.bind(this)));
-    this.forceUpdate.bind(this);
+    if (thisWorker) thisWorker.terminate();
   }
 
   render() {
