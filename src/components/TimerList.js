@@ -14,7 +14,7 @@ class TimerList extends React.Component {
       Notification.requestPermission();
     }
     if (typeof (Worker) !== 'undefined') {
-      thisWorker = new Worker('../timerWorker.js');
+      thisWorker = new Worker('./timerWorker.js');
       thisWorker.onmessage = event => this.props.animateTimers(event.data);
     } else {
       const workerWarningText = document.createTextNode(`
