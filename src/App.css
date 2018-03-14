@@ -2,10 +2,6 @@
   display: flex;
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0);
-  position: absolute;
-  width: 500px;
-  left: 30%;
-  top: 0;
 }
 
 .Background {
@@ -17,6 +13,9 @@
 .AddTimer {
   padding: 10px;
   align-self: center;
+  position: absolute;
+  left: 38%;
+  top: 10%;
 }
 
 .AddTimerInput {
@@ -71,4 +70,7 @@ ul {
   list-style-type: none;
   display: flex;
   flex-direction: column;
+  position: absolute;
+  left: 28%;
+  top: 15%;
 }
