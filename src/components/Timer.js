@@ -48,9 +48,15 @@ class Timer extends React.Component {
       onRepeatClick,
     } = this.props;
 
+    let cleanName = name;
+
+    if (cleanName.length > 18) {
+      cleanName = `${cleanName.slice(0, 16)}...`;
+    }
+
     return (
       <li className="Timer">
-        <h3 className="TimerName">{name}</h3>
+        <h3 className="TimerName">{cleanName}</h3>
         <h3 className="TimerRemaining">{formatRemainingTime(remainingTime)}</h3>
         <div className="TimerButtons">
           <input

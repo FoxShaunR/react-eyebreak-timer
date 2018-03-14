@@ -29,7 +29,7 @@ class AddTimer extends React.Component {
             }}
             className="AddTimerInput"
             placeholder="Name"
-            maxLength={10}
+            maxLength={30}
           />
           <input
             ref={(node) => {
