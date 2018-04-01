@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addTimer } from '../actions/actions';
 
+let shouldRepeat = false;
+
 class AddTimer extends React.Component {
   render() {
     let nameInput;
@@ -12,13 +14,15 @@ class AddTimer extends React.Component {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            const dur = Number(durationInput.value) * 60;
             if (!nameInput.value.trim() || !durationInput.value.trim()) {
               return null;
             }
 
-            this.props.addTimerToState(nameInput.value, Number(durationInput.value) * 60);
+            this.props.addTimerToState(nameInput.value, dur, shouldRepeat);
             nameInput.value = '';
             durationInput.value = '';
+            shouldRepeat = false;
             return true;
             }
         }
@@ -41,8 +45,19 @@ class AddTimer extends React.Component {
             max={9999}
             min={1}
           />
-          <button type="submit">
+          <button className="AddTimerButton" type="submit">
             Add Timer
+          </button>
+          <button
+            className="AddTimerButton"
+            type="submit"
+            onClick={() => {
+              shouldRepeat = true;
+              nameInput.value = 'Rest \'em now';
+              durationInput.value = 35;
+            }}
+          >
+            Give &#39;Em a Break
           </button>
         </form>
       </div>
@@ -55,7 +70,7 @@ AddTimer.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addTimerToState: (text, currentDuration) => dispatch(addTimer(text, currentDuration)),
+  addTimerToState: (text, duration, repeat) => dispatch(addTimer(text, duration, repeat)),
 });
 
 export default connect(

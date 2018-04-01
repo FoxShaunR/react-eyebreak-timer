@@ -7,7 +7,7 @@ export const ACTION_TIMER_RESET = 'ACTION_TIMER_RESET';
 export const ACTION_TIMER_ANIMATE = 'ACTION_TIMER_ANIMATE';
 
 let nextTimerId = 0;
-export const addTimer = (text, currentDuration) => {
+export const addTimer = (text, currentDuration, repeat) => {
   nextTimerId += 1;
   const currentDate = new Date();
   return {
@@ -20,7 +20,7 @@ export const addTimer = (text, currentDuration) => {
       startTime: currentDate,
       remainingTime: currentDuration,
       paused: false,
-      repeat: false,
+      repeat,
     },
   };
 };

@@ -23,6 +23,10 @@
   width: 80px;
 }
 
+.AddTimerButton {
+  margin-left: 5px;
+}
+
 .Timer {
   height: 60px;
   width: 500px;
