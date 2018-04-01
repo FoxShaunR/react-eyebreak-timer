@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import slimeDrop from '../Images/slime_drop.svg';
 
 let animation = null;
 const maxWarp = 0.4; // Max factor for eye warp
-const warpSpeed = 30.0; // Higher = slower
+const warpSpeed = 80.0; // Higher = slower
+const numOfDrops = 20;
 
 function mutatePoint(x, xBase, y, yBase, increase) {
   const newPoint = {
@@ -45,6 +47,7 @@ class componentName extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      slimeDrops: [],
       upperEyeMP:
       {
         cp1xBase: 3,
@@ -79,6 +82,46 @@ class componentName extends Component {
   componentWillUnmount() {
     if (animation) cancelAnimationFrame(animation);
   }
+  drawTheSlime(c, ctx) {
+    const slimeImage = new Image();
+    slimeImage.src = slimeDrop;
+
+    ctx.beginPath();
+    ctx.rect(0, 0, c.width, c.height);
+    ctx.fillStyle = '#e809bf';
+    ctx.fill();
+
+    for (let x = 0; x < this.state.slimeDrops.length; x += 1) {
+      const drop = this.state.slimeDrops[x];
+
+      ctx.drawImage(slimeImage, drop.x, drop.y);
+    }
+
+    this.mutateTheSlime(c);
+  }
+  mutateTheSlime(c) {
+    const newDrops = this.state.slimeDrops.slice(0);
+
+    if (newDrops.length === 0) {
+      // Generate some slime drops
+      for (let x = 0; x < numOfDrops; x += 1) {
+        newDrops.push({ x: Math.random() * c.width, y: Math.random() * c.height });
+      }
+    } else {
+      for (let x = 0; x < newDrops.length; x += 1) {
+        const drop = newDrops[x];
+
+        if (drop.y < c.height) {
+          drop.y = drop.y < 0 ? drop.y + 1 : drop.y + 2;
+        } else {
+          drop.y = -60;
+          drop.x = Math.random() * c.width;
+        }
+      }
+    }
+
+    this.setState({ ...this.State, slimeDrops: newDrops });
+  }
   drawTheEye() {
     const c = document.getElementById('background');
     const ctx = c.getContext('2d');
@@ -87,6 +130,8 @@ class componentName extends Component {
     const cXSeg = c.width / 8;
 
     ctx.clearRect(0, 0, c.width, c.height);
+
+    this.drawTheSlime(c, ctx);
 
     // eye
     ctx.fillStyle = `rgb(${this.props.baseColorR}, ${this.props.baseColorG}, ${this.props.baseColorB})`;
