@@ -1,9 +1,10 @@
 {
-  "main.css": "static/css/main.35acdaf5.css",
-  "main.css.map": "static/css/main.35acdaf5.css.map",
-  "main.js": "static/js/main.c5ee340f.js",
-  "main.js.map": "static/js/main.c5ee340f.js.map",
+  "main.css": "static/css/main.da7dedc8.css",
+  "main.css.map": "static/css/main.da7dedc8.css.map",
+  "main.js": "static/js/main.6b494f75.js",
+  "main.js.map": "static/js/main.6b494f75.js.map",
   "static/media/bell.srt": "static/media/bell.313a4c44.srt",
   "static/media/bell.wav": "static/media/bell.5de70e8c.wav",
-  "static/media/notification-icon.png": "static/media/notification-icon.1101f5d6.png"
+  "static/media/notification-icon.png": "static/media/notification-icon.1101f5d6.png",
+  "static/media/slime_drop.svg": "static/media/slime_drop.a6d210f2.svg"
 }
