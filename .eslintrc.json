@@ -5,6 +5,8 @@
       "react" 
     ],
     "globals": {
+      "document": true,
+      "window": true,
       "fetch": true
     },
     "rules": {

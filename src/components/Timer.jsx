@@ -9,11 +9,10 @@ import pauseButtonImage from './pause-button.png';
 import deleteButtonImage from './delete-button.png';
 import repeatButtonImage from './repeat-button.png';
 import repeatButtonOffImage from './repeat-off-button.png';
-import { resetTimer, setNotified } from '../actions/actions';
+import { resetTimer as resetTimeAction, setNotified as setNotifiedAction } from '../actions/actions';
 import notificationIcon from './notification-icon.png';
 
-
-const formatRemainingTime = currentDuration => (
+const formatRemainingTime = (currentDuration) => (
   Moment.duration(currentDuration, 'seconds').format('HH:mm:ss', {
     trim: false,
   })
@@ -21,22 +20,33 @@ const formatRemainingTime = currentDuration => (
 
 class Timer extends React.Component {
   componentDidUpdate() {
-    if (this.props.remainingTime <= 0 && !this.props.paused) {
+    const {
+      remainingTime,
+      paused,
+      wasNotified,
+      name,
+      id,
+      repeat,
+      resetTimer,
+      setNotified,
+    } = this.props;
+    if (remainingTime <= 0 && !paused) {
       document.getElementById('bell').play();
-      if (!this.props.wasNotified) {
+      if (!wasNotified) {
         // Display a desktop notification
         if (Notification) {
           // eslint-disable-next-line no-unused-vars
-          const thisNotification = new Notification(this.props.name, { icon: notificationIcon, body: 'Time expired.' });
+          const thisNotification = new Notification(name, { icon: notificationIcon, body: 'Time expired.' });
         }
         // Update notification sent
-        this.props.setNotified(this.props.id, true);
+        setNotified(id, true);
       }
-      if (this.props.repeat) {
-        this.props.resetTimer(this.props.id);
+      if (repeat) {
+        resetTimer(id);
       }
     }
   }
+
   render() {
     const {
       name,
@@ -110,9 +120,9 @@ Timer.defaultProps = {
   wasNotified: false,
 };
 
-const mapDispatchToProps = dispatch => ({
-  resetTimer: (id) => { dispatch(resetTimer(id)); },
-  setNotified: (id, wasNotified) => { dispatch(setNotified(id, wasNotified)); },
+const mapDispatchToProps = (dispatch) => ({
+  resetTimer: (id) => { dispatch(resetTimeAction(id)); },
+  setNotified: (id, wasNotified) => { dispatch(setNotifiedAction(id, wasNotified)); },
 });
 
 export default connect(null, mapDispatchToProps)(Timer);

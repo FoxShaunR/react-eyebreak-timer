@@ -76,13 +76,19 @@ class componentName extends Component {
       },
     };
   }
+
   componentDidMount() {
     this.drawTheEye();
   }
+
   componentWillUnmount() {
     if (animation) cancelAnimationFrame(animation);
   }
+
   drawTheSlime(c, ctx) {
+    const {
+      slimeDrops,
+    } = this.state;
     const slimeImage = new Image();
     slimeImage.src = slimeDrop;
 
@@ -91,16 +97,18 @@ class componentName extends Component {
     ctx.fillStyle = '#e809bf';
     ctx.fill();
 
-    for (let x = 0; x < this.state.slimeDrops.length; x += 1) {
-      const drop = this.state.slimeDrops[x];
+    for (let x = 0; x < slimeDrops.length; x += 1) {
+      const drop = slimeDrops[x];
 
       ctx.drawImage(slimeImage, drop.x, drop.y);
     }
 
     this.mutateTheSlime(c);
   }
+
   mutateTheSlime(c) {
-    const newDrops = this.state.slimeDrops.slice(0);
+    const { slimeDrops } = this.state;
+    const newDrops = slimeDrops.slice(0);
 
     if (newDrops.length === 0) {
       // Generate some slime drops
@@ -122,7 +130,17 @@ class componentName extends Component {
 
     this.setState({ ...this.State, slimeDrops: newDrops });
   }
+
   drawTheEye() {
+    const {
+      baseColorR,
+      baseColorG,
+      baseColorB,
+    } = this.props;
+    const {
+      upperEyeMP,
+      lowerEyeMP,
+    } = this.state;
     const c = document.getElementById('background');
     const ctx = c.getContext('2d');
 
@@ -134,15 +152,15 @@ class componentName extends Component {
     this.drawTheSlime(c, ctx);
 
     // eye
-    ctx.fillStyle = `rgb(${this.props.baseColorR}, ${this.props.baseColorG}, ${this.props.baseColorB})`;
+    ctx.fillStyle = `rgb(${baseColorR}, ${baseColorG}, ${baseColorB})`;
     ctx.strokeStyle = 'black';
     ctx.beginPath();
     ctx.moveTo(cXSeg, 4 * cYSeg);
     // bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)
     // eslint-disable-next-line max-len
-    ctx.bezierCurveTo(this.state.upperEyeMP.cp1x * cXSeg, this.state.upperEyeMP.cp1y * cYSeg, this.state.upperEyeMP.cp2x * cXSeg, this.state.upperEyeMP.cp2y * cYSeg, 7 * cXSeg, 4 * cYSeg);
+    ctx.bezierCurveTo(upperEyeMP.cp1x * cXSeg, upperEyeMP.cp1y * cYSeg, upperEyeMP.cp2x * cXSeg, upperEyeMP.cp2y * cYSeg, 7 * cXSeg, 4 * cYSeg);
     // eslint-disable-next-line max-len
-    ctx.bezierCurveTo(this.state.lowerEyeMP.cp1x * cXSeg, this.state.lowerEyeMP.cp1y * cYSeg, this.state.lowerEyeMP.cp2x * cXSeg, this.state.lowerEyeMP.cp2y * cYSeg, cXSeg, 4 * cYSeg);
+    ctx.bezierCurveTo(lowerEyeMP.cp1x * cXSeg, lowerEyeMP.cp1y * cYSeg, lowerEyeMP.cp2x * cXSeg, lowerEyeMP.cp2y * cYSeg, cXSeg, 4 * cYSeg);
 
     ctx.stroke();
     ctx.fill();
@@ -159,9 +177,14 @@ class componentName extends Component {
 
     animation = requestAnimationFrame(this.drawTheEye.bind(this));
   }
+
   mutateTheEye() {
-    const up = Object.assign({}, this.state.upperEyeMP);
-    const low = Object.assign({}, this.state.lowerEyeMP);
+    const {
+      upperEyeMP,
+      lowerEyeMP,
+    } = this.state;
+    const up = { ...upperEyeMP };
+    const low = { ...lowerEyeMP };
 
     let mutatedPoint = mutatePoint(up.cp1x, up.cp1xBase, up.cp1y, up.cp1yBase, up.cp1Increase);
     up.cp1x = mutatedPoint.x;
@@ -188,6 +211,7 @@ class componentName extends Component {
       lowerEyeMP: low,
     });
   }
+
   render() {
     return (
       <canvas id="background" width={window.innerWidth} height={window.innerHeight} />

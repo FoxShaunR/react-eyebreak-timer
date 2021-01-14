@@ -13,8 +13,8 @@ const getRemainingTime = (startTime, currentDuration) => {
   const currentTime = Moment();
   const remainingSeconds = currentTime.clone().diff(startTime, 'seconds');
 
-  return Moment.duration(currentDuration - remainingSeconds, 'seconds').asSeconds() >= 0 ?
-    Moment.duration(currentDuration - remainingSeconds, 'seconds').asSeconds() : 0;
+  return Moment.duration(currentDuration - remainingSeconds, 'seconds').asSeconds() >= 0
+    ? Moment.duration(currentDuration - remainingSeconds, 'seconds').asSeconds() : 0;
 };
 
 const timers = (state = [], action) => {
@@ -27,35 +27,32 @@ const timers = (state = [], action) => {
     case ACTION_TIMER_PAUSE:
       return {
         ...state,
-        Timers: state.Timers.map(timer =>
-          ((timer.id === action.id) ? {
-            ...timer,
-            paused: !timer.paused,
-            currentDuration: timer.remainingTime,
-            startTime: new Date(),
-          } : timer)),
+        Timers: state.Timers.map((timer) => ((timer.id === action.id) ? {
+          ...timer,
+          paused: !timer.paused,
+          currentDuration: timer.remainingTime,
+          startTime: new Date(),
+        } : timer)),
       };
     case ACTION_TIMER_RESET:
       return {
         ...state,
-        Timers: state.Timers.map(timer =>
-          ((timer.id === action.id) ? {
-            ...timer,
-            paused: false,
-            currentDuration: timer.originalDuration,
-            remainingTime: getRemainingTime(new Date(), timer.originalDuration),
-            startTime: new Date(),
-            wasNotified: false,
-          } : timer)),
+        Timers: state.Timers.map((timer) => ((timer.id === action.id) ? {
+          ...timer,
+          paused: false,
+          currentDuration: timer.originalDuration,
+          remainingTime: getRemainingTime(new Date(), timer.originalDuration),
+          startTime: new Date(),
+          wasNotified: false,
+        } : timer)),
       };
     case ACTION_TIMER_REPEAT:
       return {
         ...state,
-        Timers: state.Timers.map(timer =>
-          ((timer.id === action.id) ? {
-            ...timer,
-            repeat: !timer.repeat,
-          } : timer)),
+        Timers: state.Timers.map((timer) => ((timer.id === action.id) ? {
+          ...timer,
+          repeat: !timer.repeat,
+        } : timer)),
       };
     case ACTION_TIMER_REMOVE: {
       const index = state.Timers.indexOf(action.timer);
@@ -73,23 +70,21 @@ const timers = (state = [], action) => {
     case ACTION_TIMER_SET_NOTIFIED: {
       return {
         ...state,
-        Timers: state.Timers.map(timer =>
-          ((timer.id === action.id) ? {
-            ...timer,
-            wasNotified: action.wasNotified,
-          } : timer)),
+        Timers: state.Timers.map((timer) => ((timer.id === action.id) ? {
+          ...timer,
+          wasNotified: action.wasNotified,
+        } : timer)),
       };
     }
     case ACTION_TIMER_ANIMATE: {
       return {
         ...state,
         animationFrame: action.animationFrame,
-        Timers: !state.Timers ? null : state.Timers.map(timer =>
-          ({
-            ...timer,
-            remainingTime: timer.paused ?
-              timer.remainingTime : getRemainingTime(timer.startTime, timer.currentDuration),
-          })),
+        Timers: !state.Timers ? null : state.Timers.map((timer) => ({
+          ...timer,
+          remainingTime: timer.paused
+            ? timer.remainingTime : getRemainingTime(timer.startTime, timer.currentDuration),
+        })),
       };
     }
     default:

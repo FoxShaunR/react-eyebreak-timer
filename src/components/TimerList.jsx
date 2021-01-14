@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { addTimer, pauseTimer, deleteTimer, repeatTimer, animate } from '../actions/actions';
+import {
+  addTimer, pauseTimer, deleteTimer, repeatTimer, animate,
+} from '../actions/actions';
 import Timer from './Timer';
 import bellSound from './bell.wav';
 import bellCaptions from './bell.srt';
@@ -10,12 +12,13 @@ let thisWorker = null;
 
 class TimerList extends React.Component {
   componentDidMount() {
+    const { animateTimers } = this.props;
     if (('Notification' in window) && Notification.permission !== 'denied') {
       Notification.requestPermission();
     }
     if (typeof (Worker) !== 'undefined') {
-      thisWorker = new Worker('./timerWorker.js');
-      thisWorker.onmessage = event => this.props.animateTimers(event.data);
+      thisWorker = new Worker('/react-eyebreak-timer/timerWorker.js');
+      thisWorker.onmessage = (event) => animateTimers(event.data);
     } else {
       const workerWarningText = document.createTextNode(`
       This application requires web worker support.
@@ -36,24 +39,27 @@ class TimerList extends React.Component {
       onDeleteClick,
     } = this.props;
 
-    return (!Timers ? <ul /> :
-    <div>
-      <ul>
-        { Timers.map(timer => (
-          <Timer
-            key={timer.id}
-            {...timer}
-            onPauseClick={() => onPauseClick(timer.id)}
-            onDeleteClick={() => onDeleteClick(timer)}
-            onRepeatClick={() => onRepeatClick(timer.id)}
-          />
-        )) }
-      </ul>
-      <audio id="bell">
-        <source src={bellSound} type="audio/wav" />
-        <track src={bellCaptions} kind="captions" />
-      </audio>
-    </div>);
+    return (!Timers ? <ul />
+      : (
+        <div>
+          <ul>
+            { Timers.map((timer) => (
+              <Timer
+                key={timer.id}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...timer}
+                onPauseClick={() => onPauseClick(timer.id)}
+                onDeleteClick={() => onDeleteClick(timer)}
+                onRepeatClick={() => onRepeatClick(timer.id)}
+              />
+            )) }
+          </ul>
+          <audio id="bell">
+            <source src={bellSound} type="audio/wav" />
+            <track src={bellCaptions} kind="captions" />
+          </audio>
+        </div>
+      ));
   }
 }
 
@@ -76,7 +82,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   onPauseClick: (id) => { dispatch(pauseTimer(id)); },
   onDeleteClick: (timer) => { dispatch(deleteTimer(timer)); },
   onRepeatClick: (timer) => { dispatch(repeatTimer(timer)); },

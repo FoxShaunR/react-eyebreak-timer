@@ -18,4 +18,3 @@ if (typeof window !== 'undefined') {
   );
   registerServiceWorker();
 }
-

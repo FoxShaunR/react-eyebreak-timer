@@ -7,6 +7,9 @@ let shouldRepeat = false;
 
 class AddTimer extends React.Component {
   render() {
+    const {
+      addTimerToState,
+    } = this.props;
     let nameInput;
     let durationInput;
     return (
@@ -19,17 +22,16 @@ class AddTimer extends React.Component {
               return null;
             }
 
-            this.props.addTimerToState(nameInput.value, dur, shouldRepeat);
+            addTimerToState(nameInput.value, dur, shouldRepeat);
             nameInput.value = '';
             durationInput.value = '';
             shouldRepeat = false;
             return true;
-            }
-        }
+          }}
         >
           <input
             ref={(node) => {
-                nameInput = node;
+              nameInput = node;
             }}
             className="AddTimerInput"
             placeholder="Name"
@@ -37,7 +39,7 @@ class AddTimer extends React.Component {
           />
           <input
             ref={(node) => {
-                durationInput = node;
+              durationInput = node;
             }}
             type="number"
             className="AddTimerInput"
@@ -69,7 +71,7 @@ AddTimer.propTypes = {
   addTimerToState: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   addTimerToState: (text, duration, repeat) => dispatch(addTimer(text, duration, repeat)),
 });
 
