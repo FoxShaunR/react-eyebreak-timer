@@ -1,10 +1,24 @@
 {
-  "main.css": "static/css/main.6b106f71.css",
-  "main.css.map": "static/css/main.6b106f71.css.map",
-  "main.js": "static/js/main.f300fedc.js",
-  "main.js.map": "static/js/main.f300fedc.js.map",
-  "static/media/bell.srt": "static/media/bell.313a4c44.srt",
-  "static/media/bell.wav": "static/media/bell.5de70e8c.wav",
-  "static/media/notification-icon.png": "static/media/notification-icon.1101f5d6.png",
-  "static/media/slime_drop.svg": "static/media/slime_drop.a6d210f2.svg"
+  "files": {
+    "main.css": "/react-eyebreak-timer/static/css/main.c2a43799.chunk.css",
+    "main.js": "/react-eyebreak-timer/static/js/main.4f0cdd2e.chunk.js",
+    "main.js.map": "/react-eyebreak-timer/static/js/main.4f0cdd2e.chunk.js.map",
+    "runtime-main.js": "/react-eyebreak-timer/static/js/runtime-main.a924e488.js",
+    "runtime-main.js.map": "/react-eyebreak-timer/static/js/runtime-main.a924e488.js.map",
+    "static/js/2.973a0966.chunk.js": "/react-eyebreak-timer/static/js/2.973a0966.chunk.js",
+    "static/js/2.973a0966.chunk.js.map": "/react-eyebreak-timer/static/js/2.973a0966.chunk.js.map",
+    "index.html": "/react-eyebreak-timer/index.html",
+    "static/css/main.c2a43799.chunk.css.map": "/react-eyebreak-timer/static/css/main.c2a43799.chunk.css.map",
+    "static/js/2.973a0966.chunk.js.LICENSE.txt": "/react-eyebreak-timer/static/js/2.973a0966.chunk.js.LICENSE.txt",
+    "static/media/bell.55beab7d.wav": "/react-eyebreak-timer/static/media/bell.55beab7d.wav",
+    "static/media/bell.cf637745.srt": "/react-eyebreak-timer/static/media/bell.cf637745.srt",
+    "static/media/notification-icon.67a323e3.png": "/react-eyebreak-timer/static/media/notification-icon.67a323e3.png",
+    "static/media/slime_drop.45af8ea7.svg": "/react-eyebreak-timer/static/media/slime_drop.45af8ea7.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a924e488.js",
+    "static/js/2.973a0966.chunk.js",
+    "static/css/main.c2a43799.chunk.css",
+    "static/js/main.4f0cdd2e.chunk.js"
+  ]
 }
